@@ -1,0 +1,38 @@
+﻿@model C1.Models.Teacher
+@{
+    ViewBag.Title = "Show";
+}
+
+@*Displaying teacher information against selected teacher *@
+<a class="navlink" href="/Teacher/List">Back to Teachers</a>
+<div id="containershow">
+    <h2>Show Teacher</h2>
+    @*Show teacher First name and last name*@
+    <div>
+        <strong> Teacher Full Name: </strong> @Model.TeacherFname @Model.TeacherLname
+    </div>
+    @*Show teacher Employee number*@
+    <div>
+        <strong> Employee Number: </strong>@Model.Employeenumber
+    </div>
+    @*Show teacher Hiredate*@
+    <div>
+        <strong> Hire Date: </strong>@Model.Hiredate
+    </div>
+    @*Show teacher Salary*@
+    <div>
+        <strong> Salary: CAD </strong> @Model.Salary
+    </div>
+    @*Show teacher ClassName *@
+    <div>
+        <strong> Classes: </strong>
+        <ul>
+            @foreach (var className in Model.ClassName)
+            {
+                <li>@className</li>
+            }
+        </ul>
+    </div>
+
+</div>
+

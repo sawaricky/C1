@@ -1,0 +1,21 @@
+﻿@model IEnumerable<C1.Models.Teacher>
+@{
+    ViewBag.Title = "List";
+}
+
+<h2>List</h2>
+<p>This page should be showing information about all Teachers</p>
+<div id="containerlist">
+    <h2>List of Teachers</h2>
+    @* Form to search teacher *@
+    <form action="/Teacher/List" method="Get">
+        <input type="text" name="SearchKey"/>
+        <input type="submit" value="Search"/>
+    </form>
+    @*rendeing the information in the dynamic view multiple teachers at the same time *@
+    @foreach (var Teacher in Model)
+    {
+        <div class="listitem row"><a href="/Teacher/Show/@Teacher.Teacherid">@Teacher.TeacherFname @Teacher.TeacherLname</a>
+        </div>
+    }
+</div>

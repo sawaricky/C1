@@ -104,6 +104,7 @@ namespace C1.Controllers
             //SQL query
             //displays teacher information with the classes they taech
             //note: the + used to string concatenation to form a single string
+            //note: date format while searching - 2016-08-05 
             cmd.CommandText = "SELECT teachers.teacherid, teachers.teacherfname, teachers.teacherlname, teachers.employeenumber, teachers.hiredate, teachers.salary, classes.classname " +
                   "FROM teachers " +
                   "INNER JOIN classes ON teachers.teacherid = classes.teacherid " +

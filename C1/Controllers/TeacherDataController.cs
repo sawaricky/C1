@@ -7,7 +7,8 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Routing;
-
+using System.Web.Http.Cors;
+using System.Diagnostics;
 
 namespace C1.Controllers
 {
@@ -25,7 +26,7 @@ namespace C1.Controllers
         [HttpGet]
         //the ? together with SearchKey = null after the SearchKey variable allows the list of teachers to be displayed 
         [Route("api/TeacherData/ListTeachers/{SearchKey?}")]
-        public IEnumerable<Teacher> ListTeachers(string SearchKey=null)
+        public IEnumerable<Teacher> ListTeachers(string SearchKey = null)
         {
             //create an instance of a connection
             MySqlConnection Conn = school.AccessDatabase();
@@ -89,9 +90,9 @@ namespace C1.Controllers
 
         public Teacher FindTeacher(int id)
         {
-            
+
             Teacher NewTeacher = new Teacher();
-           
+
             //create an instance of a connection
             MySqlConnection Conn = school.AccessDatabase();
 
@@ -107,7 +108,7 @@ namespace C1.Controllers
             //note: date format while searching - 2016-08-05 
             cmd.CommandText = "SELECT teachers.teacherid, teachers.teacherfname, teachers.teacherlname, teachers.employeenumber, teachers.hiredate, teachers.salary, classes.classname " +
                   "FROM teachers " +
-                  "INNER JOIN classes ON teachers.teacherid = classes.teacherid " +
+                  "LEFT OUTER JOIN classes ON teachers.teacherid = classes.teacherid " +
                   "WHERE teachers.teacherid = @id";
 
             cmd.Parameters.AddWithValue("@id", id);
@@ -135,6 +136,69 @@ namespace C1.Controllers
                 NewTeacher.ClassName.Add(ClassName);
             }
             return NewTeacher;
+        }
+        /// <summary>
+        /// Delete teacher from database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <example> POST : /api/TeacherData/DeleteTeacher/3</example>
+        [HttpPost]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public void DeleteTeacher(int id)
+        {
+            Debug.WriteLine(id);
+            //create an instance of a connection
+            MySqlConnection Conn = school.AccessDatabase();
+
+            //Open the conection between the web server and database 
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            /* MySql query*/
+            cmd.CommandText = "Delete from teachers where teacherid=@id";
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
+        }
+        /// <summary>
+        /// Add teacher to database
+        /// </summary>
+        /// <param name="NewTeacher"></param>
+        /// <exception cref="ArgumentException"></exception>
+        /// /// <example> POST : /api/TeacherData/AddTeacher</example>
+        [HttpPost]
+        [EnableCors(origins: "*", methods: "*", headers: "*")]
+        public void AddTeacher([FromBody] Teacher NewTeacher)
+        {
+            Debug.WriteLine(NewTeacher.TeacherFname);
+            // Checking if any required field is missing
+            if (string.IsNullOrEmpty(NewTeacher.TeacherFname) || string.IsNullOrEmpty(NewTeacher.TeacherLname) || string.IsNullOrEmpty(NewTeacher.Employeenumber))
+            {
+                throw new ArgumentException("Please fill in required information");
+            }
+            //create an instance of a connection
+            MySqlConnection Conn = school.AccessDatabase();
+
+            //Open the conection between the web server and database 
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            /* MySql query*/
+            cmd.CommandText = "insert into teachers (teachers.teacherfname, teachers.teacherlname, teachers.employeenumber, teachers.hiredate, teachers.salary)values (@TeacherFname,@TeacherLname,@Employeenumber,@Hiredate,@Salary)";
+
+            cmd.Parameters.AddWithValue("@TeacherFname", NewTeacher.TeacherFname);
+            cmd.Parameters.AddWithValue("@TeacherLname", NewTeacher.TeacherLname);
+            cmd.Parameters.AddWithValue("@Employeenumber", NewTeacher.Employeenumber);
+            cmd.Parameters.AddWithValue("@Hiredate", NewTeacher.Hiredate);
+            cmd.Parameters.AddWithValue("@Salary", NewTeacher.Salary);
+            cmd.Prepare();
+
+            cmd.ExecuteNonQuery();
         }
     }
 }

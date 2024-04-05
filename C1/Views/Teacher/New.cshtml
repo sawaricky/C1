@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewBag.Title = "New";
+}
+<script>
+    //script file to get form and validate user information
+    function validateForm() {
+        var teacherFname = document.getElementById("TeacherFname").value;
+        var teacherLname = document.getElementById("TeacherLname").value;
+        var employeenumber = document.getElementById("Employeenumber").value;
+        var hiredate = document.getElementById("Hiredate").value;
+        var salary = document.getElementById("Salary").value;
+        var message = document.getElementById("message");
+
+        if (teacherFname === "") {
+            message.innerHTML = "Please fill in Teacher first name";
+            message.style.color = "red";
+            return false; // Prevent form submission
+        }
+        if (teacherLname === "") {
+            message.innerHTML = "Please fill in Teacher Last name";
+            message.style.color = "red";
+            return false; // Prevent form submission
+        }
+        if (employeenumber === "") {
+            message.innerHTML = "Please fill in Teacher employee number";
+            message.style.color = "red";
+            return false; // Prevent form submission
+        }
+        if (salary === "") {
+            message.innerHTML = "Please fill in Teacher salary";
+            message.style.color = "red";
+            return false; // Prevent form submission
+        }
+        var dateRegex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+        if (hiredate === "" || !dateRegex.test(hiredate)) {
+            message.innerHTML = "Please fill in Teacher hiredate format 2016-08-05 00:00:00";
+            message.style.color = "red";
+            return false; // Prevent form submission
+        }
+        return true; // Allow form submission
+    }
+</script>
+<h2>New Teacher</h2>
+@*navigation*@
+<nav>
+    <a class="newnavlink" href="/Teacher/List">Back to teachers</a>
+</nav>
+@*form to handle entered data*@
+<form method="POST" action="/Teacher/Create" onsubmit="return validateForm()">
+    <div>
+        <label for="TeacherFname">First Name: </label>
+        <input type="text" id="TeacherFname" name="TeacherFname" placeholder="John" />
+    </div>
+    <div>
+        <label for="TeacherLname">Last Name: </label>
+        <input type="text" id="TeacherLname" name="TeacherLname" placeholder="Doe" />
+    </div>
+    <div>
+        <label for="Employeenumber">Employee number: </label>
+        <input type="text" id="Employeenumber" name="Employeenumber" placeholder="T1234" />
+    </div>
+    <div>
+        <label for="Hiredate">Hire date: </label>
+        <input type="datetime" id="Hiredate" name="Hiredate" placeholder="YYYY-MM-DD HH:MM:SS" />
+    </div>
+    <div>
+        <label for="Salary">Salary: </label>
+        <input type="number" id="Salary" name="Salary" placeholder="50.40" />
+    </div>
+
+    <div>
+        <input type="submit" value="Create Teacher" />
+    </div>
+@*display information after submitting form *@
+    <div>
+        <label id="message"></label>
+    </div>
+</form>
+
+
+
+

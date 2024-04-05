@@ -4,8 +4,15 @@
 }
 
 @*Displaying teacher information against selected teacher *@
-<a class="navlink" href="/Teacher/List">Back to Teachers</a>
+
+ @*navigation  *@
 <div id="containershow">
+    <nav>
+        <a class="navlink" href="/Teacher/List">Back to Teachers</a>
+        <a class="dellink" href="/Teacher/DeleteConfirm/@Model.Teacherid">Delete</a>
+        <a class="dellink" href="/Teacher/Ajax_New_Delete/@Model.Teacherid">Delete ajax</a>
+    </nav>
+
     <h2>Show Teacher</h2>
     @*Show teacher First name and last name*@
     <div>
@@ -17,7 +24,7 @@
     </div>
     @*Show teacher Hiredate*@
     <div>
-        <strong> Hire Date: </strong>@Model.Hiredate
+        <strong> Hire Date: </strong>@Model.Hiredate.ToString("dd-MMM-yyyy")
     </div>
     @*Show teacher Salary*@
     <div>
@@ -33,6 +40,15 @@
             }
         </ul>
     </div>
+    @*Error handling *@
 
+    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+    {
+        <label style="color: red;">@ViewBag.ErrorMessage</label>
+    }
+    else if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+    {
+        <label style="color: green;">@ViewBag.SuccessMessage</label>
+    }
 </div>
 

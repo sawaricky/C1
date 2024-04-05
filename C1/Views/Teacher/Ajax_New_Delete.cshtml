@@ -1,0 +1,16 @@
+﻿@model C1.Models.Teacher
+@{
+    ViewBag.Title = "Ajax_New_Delete";
+}
+<div id="containershow">
+@*navigatiion bar*@
+    <nav9>
+        <a class="navlink" href="/Teacher/Show/@Model.Teacherid">Cancel</a>
+    </nav9>
+    <h2>Are you sure you want to delete the  @Model.TeacherFname @Model.TeacherLname?</h2>
+    <p>This action cannot be undone</p>
+    @*subtmit teacher and call DeleteTeacher function from JS file*@
+    <button onclick="DeleteTeacher(@Model.Teacherid)" href="/Teacher/Show/@Model.Teacherid">Confirm Delete</button>
+
+
+</div>

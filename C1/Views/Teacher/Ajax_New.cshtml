@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Ajax_New";
+}
+
+<h2>Ajax_New</h2>
+
+<div id="containershow">
+@*navigation bar *@
+    <nav>
+        <a class="navlink" href="/Teacher/List">Back To Teachers</a>
+    </nav>
+    <h2>New Teacher</h2>
+@*form to submit new teacher*@
+    <div class="inputrow">
+        <label for="TeacherFname">First Name:</label>
+        <input type="text" id="TeacherFname" name="TeacherFname" />
+
+    </div>
+    <div class="inputrow">
+        <label for="TeacherLname">Last Name:</label>
+        <input type="text" id="TeacherLname" name="TeacherLname" />
+
+    </div>
+    <div class="inputrow">
+        <label for="Employeenumber">Employeenumber:</label>
+        <input type="text" id="Employeenumber" name="Employeenumber" />
+    </div>
+    <div class="inputrow">
+        <label for="Hiredate">Hiredate:</label>
+        <input type="date" id="Hiredate" name="Hiredate" />
+    </div>
+    <div class="inputrow">
+        <label for="Salary">Salary:</label>
+        <input type="text" id="Salary" name="Salary" />
+    </div>
+@*submit teacher and call AddTeacher function from JS file*@
+
+    <button onclick="AddTeacher();">Add Teacher</button>
+    <div id="response">
+
+    </div>
+</div>

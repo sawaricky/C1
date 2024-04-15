@@ -17,7 +17,7 @@ nav {
 }
 .navlink{
     text-align: right;
-
+    margin-right: 15px;
     float: left;
 }
 button .navlink {
@@ -30,11 +30,13 @@ button .navlink {
 .dellink{
     color: red;
     float: right;
+    margin-right: 15px;
 }
 
 .addlink {
     color: blue;
     float: right;
+    margin-right: 15px;
 }
 .newnavlink{
     float: right;

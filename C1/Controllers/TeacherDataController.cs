@@ -12,6 +12,8 @@ using System.Diagnostics;
 
 namespace C1.Controllers
 {
+    //Wireframe for future extra features with a low fidelity prototype
+    //https://www.figma.com/file/JJdfgyH9shmwjQ93DJ8rrb/C%23-C3?type=design&node-id=0-1&mode=design&t=EaNeLFCQMLCGRRef-0
     public class TeacherDataController : ApiController
     {
         // The database contect class which allows acccess to the MYSQL Database
@@ -199,6 +201,48 @@ namespace C1.Controllers
             cmd.Prepare();
 
             cmd.ExecuteNonQuery();
+        }
+        //update Teacher
+        /// <summary>
+        /// recieve update data, and teahcer id and update teacher data in the database corresponding to the ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="TeacherInfo"></param>
+        /// <returns> Updated values of the teacher </returns>
+        /// <example>POST : /api/TeacherData/UpdateTeacher</example>
+        /// C:\Users\Akash\source\repos\C1\C1
+        [HttpPost]
+        [Route("api/TeacherData/UpdateTeacher/{Teacherid}")]
+        public void UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
+        {
+            // Checking if any required field is missing
+            if (string.IsNullOrEmpty(TeacherInfo.TeacherFname) || string.IsNullOrEmpty(TeacherInfo.TeacherLname) || string.IsNullOrEmpty(TeacherInfo.Employeenumber))
+            {
+                throw new ArgumentException("Please fill in required information");
+            }
+            //create an instance of a connection
+            MySqlConnection Conn = school.AccessDatabase();
+
+            //Open the conection between the web server and database 
+            Conn.Open();
+
+            //Establish a new command (query) for our database
+            MySqlCommand cmd = Conn.CreateCommand();
+
+            /* MySql query*/
+            cmd.CommandText = "update teachers set teachers.teacherfname=@TeacherFname, teachers.teacherlname=@TeacherLname, teachers.employeenumber=@Employeenumber, teachers.hiredate=@Hiredate, teachers.salary=@Salary  where teacherid=@Teacherid";
+
+            cmd.Parameters.AddWithValue("@TeacherFname", TeacherInfo.TeacherFname);
+            cmd.Parameters.AddWithValue("@TeacherLname", TeacherInfo.TeacherLname);
+            cmd.Parameters.AddWithValue("@Employeenumber", TeacherInfo.Employeenumber);
+            cmd.Parameters.AddWithValue("@Hiredate", TeacherInfo.Hiredate);
+            cmd.Parameters.AddWithValue("@Salary", TeacherInfo.Salary);
+            cmd.Parameters.AddWithValue("@Teacherid", id);
+            cmd.Prepare();
+            
+            cmd.ExecuteNonQuery();
+
+            Conn.Close();
         }
     }
 }

@@ -201,6 +201,7 @@ namespace C1.Controllers
             cmd.Prepare();
 
             cmd.ExecuteNonQuery();
+
         }
         //update Teacher
         /// <summary>
@@ -209,12 +210,23 @@ namespace C1.Controllers
         /// <param name="id"></param>
         /// <param name="TeacherInfo"></param>
         /// <returns> Updated values of the teacher </returns>
+        /// curl -d @updatingTeacher.json -H "Content-Type: application/json" http://localhost:44393/api/TeacherData/UpdateTeacher/5
+        /// POST : /TeacherData/UpdateTeacher/3
+        ///         /// {
+        ///	"TeacherFname":"Christine",
+        ///	"TeacherLname":"Bittle",
+        ///	"Employeenumber":"T765",
+        ///	"Hiredate":"2024-04-11",
+        ///	"Salary":20,
+        /// }
         /// <example>POST : /api/TeacherData/UpdateTeacher</example>
         /// C:\Users\Akash\source\repos\C1\C1
         [HttpPost]
-        [Route("api/TeacherData/UpdateTeacher/{Teacherid}")]
+        [Route("api/TeacherData/UpdateTeacher/{id}")]
         public void UpdateTeacher(int id, [FromBody]Teacher TeacherInfo)
         {
+            Debug.WriteLine(id);
+            Debug.WriteLine(TeacherInfo.TeacherFname);
             // Checking if any required field is missing
             if (string.IsNullOrEmpty(TeacherInfo.TeacherFname) || string.IsNullOrEmpty(TeacherInfo.TeacherLname) || string.IsNullOrEmpty(TeacherInfo.Employeenumber))
             {
@@ -243,6 +255,12 @@ namespace C1.Controllers
             cmd.ExecuteNonQuery();
 
             Conn.Close();
+        }
+        [HttpPost]
+        [Route("api/TeacherData/Test")]
+        public string Test()
+        {
+            return "post test";
         }
     }
 }

@@ -145,23 +145,20 @@ namespace C1.Controllers
         /// <summary>
         /// Updates a Teacher on the MySQL Database. 
         /// </summary>
-        /// <param name="TeacherInfo">An object with fields that match the Teacher's table.</param>
+        /// <param name="id"
+        /// <param name="TeacherFname"
+        /// <param name="TeacherLname"
+        /// <param name="Hiredate"
+        /// <param name="Employeenumber"
+        /// <param name="Salary"
         /// <example>
-        /// curl -d @teacher.json -H "Content-Type: application/json" http://localhost:44393/api/TeacherData/UpdateTeacher/5
-        /// POST : /TeacherData/UpdateTeacher/3
         /// FORM DATA / POST DATA / REQUEST BODY 
-        /// {
-        ///	"TeacherFname":"Christine",
-        ///	"TeacherLname":"Bittle",
-        ///	"Employeenumber":"T765",
-        ///	"Hiredate":"2024-04-11",
-        ///	"Salary":20,
-        /// }
         /// </example>
         //Post : /Teacher/Update/{id}
         [HttpPost]
         public ActionResult Update(int id, string TeacherFname, string TeacherLname, string Employeenumber, DateTime Hiredate, decimal Salary)
         {
+
             Teacher TeacherInfo = new Teacher();
             TeacherInfo.TeacherFname = TeacherFname;
             TeacherInfo.TeacherLname = TeacherLname;
